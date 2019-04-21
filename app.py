@@ -10,11 +10,14 @@ def test():
     print(request.json)
     return json.dumps(request.json)
   else:
-    if request.is_json:
-      data = request.json
-      string_to_cut = data["string_to_cut"]
-      data["string_to_cut"] = string_to_cut[2:-1:3]
-    return jsonify(data)
-  
+    try:
+        data = request.json
+        string_to_cut = data["string_to_cut"]
+        return_string = string_to_cut[2:-1:3]
+        return_object ={"return_string":return_string}
+        return jsonify(return_object)
+    except KeyError:
+        return_object = {"return_string": ""}
+        return jsonify(return_object)
 if __name__ == "__main__":
   app.run()
